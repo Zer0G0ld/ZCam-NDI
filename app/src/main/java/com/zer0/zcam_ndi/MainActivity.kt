@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+//import androidx.camera.core.Preview
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -29,8 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.zer0.zcam_ndi.ui.theme.ZCamNDITheme
-
-
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -73,7 +72,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                // Preview da câmera
+                // Exibe a prévia da câmera
                 AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -93,13 +92,12 @@ class MainActivity : ComponentActivity() {
             val cameraProvider = cameraProviderFuture.get()
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
-            // Preview
-            val preview = androidx.camera.core.Preview.Builder().build().also { p ->
-                //p.setSurfaceProvider(previewView.surfaceProvider)
-                p.surfaceProvider = previewView.surfaceProvider
+            // Configura o Preview
+            val preview = Preview.Builder().build().also { p ->
+                p.setSurfaceProvider(previewView.surfaceProvider)
             }
 
-            // Captura frames (para enviar ao NDI futuramente)
+            // Captura frames para análise/NDI
             val imageAnalysis = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setResolutionSelector(
@@ -109,10 +107,9 @@ class MainActivity : ComponentActivity() {
                 )
                 .build()
 
-
             imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this)) { image ->
-                // Aqui você envia o frame para NDI
-                // sendFrameToNDI(image) -> ponto de integração
+                // Aqui você envia o frame para NDI futuramente
+                // sendFrameToNDI(image)
                 image.close()
             }
 
@@ -122,7 +119,6 @@ class MainActivity : ComponentActivity() {
             } catch (e: Exception) {
                 Toast.makeText(this, "Erro ao iniciar câmera: $e", Toast.LENGTH_SHORT).show()
             }
-
         }, ContextCompat.getMainExecutor(this))
     }
 }
