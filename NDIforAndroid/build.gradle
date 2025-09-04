@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    withSourcesJar()  // gera o sources.jar
+    withJavadocJar()  // gera o javadoc.jar
+}
+
+// Task dedicada para gerar o JAR do módulo diretamente em app/libs
+tasks.register('exportJar', Jar) {
+    dependsOn classes
+    archiveBaseName.set("NDIforAndroid")
+    from sourceSets.main.output
+    destinationDirectory.set(file("$rootDir/app/libs"))
+}

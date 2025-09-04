@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.zer0.zcam_ndi'
-    compileSdk 39
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.zer0.zcam_ndi"
@@ -46,6 +46,14 @@ android {
     buildFeatures {
         compose true
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+            //libs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 dependencies {
@@ -66,13 +74,18 @@ dependencies {
     androidTestImplementation libs.androidx.ui.test.junit4
     debugImplementation libs.androidx.ui.tooling
     debugImplementation libs.androidx.ui.test.manifest
+
+    implementation files('libs/NDIforAndroid.jar')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
     // CameraX
     implementation "androidx.camera:camera-core:1.4.2"
     implementation "androidx.camera:camera-camera2:1.4.2"
     implementation "androidx.camera:camera-lifecycle:1.4.2"
     implementation "androidx.camera:camera-view:1.4.2"
 
+    //implementation project(':NDIforAndroid')
 
     // NDI SDK (exemplo, você precisa colocar o jar que vem no SDK em libs/)
-    implementation files('libs/NDIforAndroid.jar')
+    //implementation files('libs/NDIforAndroid.jar')
 }
