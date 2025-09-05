@@ -69,6 +69,18 @@ Se quiser sugerir melhorias, abra uma **Issue**.
 
 ---
 
+## Dependência NDI SDK
+Este projeto usa o [NDI SDK](https://ndi.tv/sdk/).
+
+Para compilar, baixe o SDK oficial e copie:
+- `libndi.so` para `app/src/main/jniLibs/arm64-v8a/`
+- `Processing.NDI.*.h` para `app/src/main/cpp/include/`
+
+⚠️ Observação: por questões de licença, este repositório **não inclui os binários `.so`**.
+
+
+---
+
 ## 📜 Licença
 
 Este projeto é **open-source** sob a licença [GNU v3](LICENSE).
