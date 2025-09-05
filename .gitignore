@@ -20,3 +20,10 @@ Thumbs.db
 
 # === Logs temporários ===
 *.log
+
+# === Ignorar libs NDI fechadas ===
+app/src/main/jniLibs/
+*.so
+*.dll
+*.dylib
+
