@@ -30,23 +30,22 @@ import androidx.compose.ui.tooling.preview.Preview as PreviewCompose
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.zer0.zcam_ndi.ui.theme.ZCamNDITheme
-import com.ndi.android.NDIlib
 
 class MainActivity : ComponentActivity() {
 
-    private var ndiSender: NDISender? = null
+    //private var NDIlib: NDIlib? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializa a biblioteca NDI antes de criar qualquer sender
+        // Inicializa a biblioteca NDI
         if (!NDIlib.initialize()) {
             throw RuntimeException("Falha ao inicializar a biblioteca NDI SDK")
         }
 
         // Cria o sender NDI
-        ndiSender = NDISender("ZCam-NDI")
+        NDIlib.createSender("ZCam-NDI")
 
         setContent {
             ZCamNDITheme {
@@ -74,7 +73,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                // Exibe a prévia da câmera
                 AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -83,6 +81,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startCamera(previewView: PreviewView) {
@@ -101,10 +100,9 @@ class MainActivity : ComponentActivity() {
                 .build()
 
             imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this)) { imageProxy ->
-                // Converte YUV -> NV21 -> RGBA bytes direto
                 val frameBytes = imageProxyToRGBABytes(imageProxy)
                 frameBytes?.let {
-                    ndiSender?.sendFrame(frameBytes, imageProxy.width, imageProxy.height)
+                    NDIlib.sendFrame(frameBytes, imageProxy.width, imageProxy.height)
                 }
                 imageProxy.close()
             }
@@ -164,9 +162,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Fecha o sender individual
-        ndiSender?.close()
-        // Finaliza a biblioteca NDI
+        NDIlib.close()
         NDIlib.destroy()
     }
 }

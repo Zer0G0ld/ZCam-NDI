@@ -23,6 +23,7 @@ Thumbs.db
 
 # === Ignorar libs NDI fechadas ===
 app/src/main/jniLibs/
+utils/NDI 6 SDK (Android).7z
 *.so
 *.dll
 *.dylib

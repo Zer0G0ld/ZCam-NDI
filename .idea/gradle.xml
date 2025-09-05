@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/NDICore" />
             <option value="$PROJECT_DIR$/NDIforAndroid" />
             <option value="$PROJECT_DIR$/app" />
           </set>

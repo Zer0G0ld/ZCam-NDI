@@ -10,9 +10,10 @@ java {
 }
 
 // Task dedicada para gerar o JAR do módulo diretamente em app/libs
-tasks.register('exportJar', Jar) {
+/*tasks.register('exportJar', Jar) {
     dependsOn classes
-    archiveBaseName.set("NDIforAndroid")
+    archiveBaseName.set("NDICore")
     from sourceSets.main.output
     destinationDirectory.set(file("$rootDir/app/libs"))
 }
+*/
